@@ -31,7 +31,5 @@ module.exports = {
             "off"
         ]
     },
-    "globals": {
-        "__base": true
-    }
+    "globals": {}
 };
