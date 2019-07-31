@@ -1,5 +1,5 @@
 // populate the `process.env` object from local `.env` file
-require("dotenv").load();
+require("dotenv").config();
 
 const client = require("./client");
 client.once("ready", require(`${client.Client.__paths.handlers}/ready.js`));
