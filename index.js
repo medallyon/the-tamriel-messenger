@@ -1,8 +1,9 @@
-// populate the `process.env` object from local `.env` file
 require("dotenv").config();
 
-const client = require("./client");
-client.once("ready", require(`${client.Client.__paths.handlers}/ready.js`));
+const Client = require("./lib/classes/Client.js");
+let client = new Client();
 
 client.login(process.env.BOT_TOKEN)
-    .catch(console.error);
+	.catch(console.error);
+
+module.exports = client;
