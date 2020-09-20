@@ -18,7 +18,7 @@
         ],
         "indent": [
             "error",
-            4
+            "tab"
         ],
         "linebreak-style": [
             "error",
@@ -37,6 +37,9 @@
         ]
     },
     "globals": {
-        "join": true
+        "join": true,
+        "__basedir": true,
+        "__webdir": true,
+        "__clientdir": true
     }
 }
