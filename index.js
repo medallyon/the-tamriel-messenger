@@ -5,7 +5,7 @@ global.__basedir = __dirname;
 global.__clientdir = join(__dirname, "lib");
 global.__webdir = join(__dirname, "web");
 
-const Client = require("./lib/classes/Client.js");
+const Client = require("./lib/classes/DiscordClient.js");
 let client = new Client();
 
 client.login(process.env.BOT_TOKEN)
