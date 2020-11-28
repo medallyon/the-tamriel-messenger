@@ -103,6 +103,9 @@ dist
 # TernJS port file
 .tern-port
 
+# instance-specific data
+data/
+
 # dot-env file
 .env
 
