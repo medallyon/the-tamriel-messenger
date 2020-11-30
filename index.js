@@ -8,7 +8,7 @@ global.__webdir = join(__dirname, "web");
 const Client = require("./lib/classes/DiscordClient.js");
 let client = new Client();
 
-client.login(process.env.BOT_TOKEN)
+client.login((process.env.NODE_ENV || "").toLowerCase() === "production" ? process.env.BOT_TOKEN : process.env.BOT_TOKEN_DEV)
 	.catch(console.error);
 
 const web = require("./web");
