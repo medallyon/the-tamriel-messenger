@@ -13,15 +13,51 @@
       
       <div class="form-group">
         <p class="lead">Nuh uhh, no peeking! Sign in first.</p>
-        <a class="btn btn-success" href="/admin/login">Sign In</a>
+        <a id="button-login" class="btn btn-success" href="/admin/login">Sign In</a>
       </div>
 
     </div>
 
   </div>
 
+  <!-- jQuery slim -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <!-- popper.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <!-- bootstrap -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <!-- oauth2-popup-flow -->
+  <script src="https://i.esoi.community/index/admin/js/oauth2-popup-flow.js" type="module"></script>
+
+  <script type="text/javascript">
+    const auth = new OAuth2PopupFlow({
+      authorizationUri: "https://discord.com/api/oauth2/authorize?client_id=231606856663957505&redirect_uri=https%3A%2F%2Fesoi.community%2Fadmin%2Foauth2%2Fredirect&response_type=code&scope=identify",
+      clientId: "231606856663957505",
+      redirectUri: "https://esoi.community/admin/oauth2/redirect",
+      scope: "identify",
+      responseType: "id_token",
+      accessTokenResponseKey: "id_token"
+    });
+
+    function main()
+    {
+      if (auth.loggedIn())
+        auth.handleRedirect();
+      else
+      {
+        $("button-login").on("click", e =>
+        {
+          e.preventDefault();
+
+          auth.tryLoginPopup()
+            .then(main)
+            .catch(console.error);
+        })
+      }
+    }
+
+    main();
+  </script>
 </body>
 </html>
