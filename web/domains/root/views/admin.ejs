@@ -13,7 +13,7 @@
       
       <div class="form-group">
         <p class="lead">Nuh uhh, no peeking! Sign in first.</p>
-        <a id="button-login" class="btn btn-success" href="/admin/login">Sign In</a>
+        <a id="button-login" class="btn btn-success" target="popup" href="/admin/login" onclick='openSignInWindow("https://discord.com/api/oauth2/authorize?client_id=231606856663957505&redirect_uri=https%3A%2F%2Fesoi.community%2Fadmin%2Foauth2%2Fredirect&response_type=code&scope=identify")'>Sign In</a>
       </div>
 
     </div>
@@ -27,37 +27,50 @@
   <!-- bootstrap -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-  <!-- oauth2-popup-flow -->
-  <script src="https://i.esoi.community/index/admin/js/oauth2-popup-flow.js" type="module"></script>
-
+  <!-- OAuth popup inspired by https://dev.to/dinkydani21/how-we-use-a-popup-for-google-and-outlook-oauth-oci -->
   <script type="text/javascript">
-    const auth = new OAuth2PopupFlow({
-      authorizationUri: "https://discord.com/api/oauth2/authorize?client_id=231606856663957505&redirect_uri=https%3A%2F%2Fesoi.community%2Fadmin%2Foauth2%2Fredirect&response_type=code&scope=identify",
-      clientId: "231606856663957505",
-      redirectUri: "https://esoi.community/admin/oauth2/redirect",
-      scope: "identify",
-      responseType: "id_token",
-      accessTokenResponseKey: "id_token"
-    });
+    let windowObjectReference = null;
+    let previousUrl = null;
 
-    function main()
-    {
-      if (auth.loggedIn())
-        auth.handleRedirect();
-      else
-      {
-        $("button-login").on("click", e =>
-        {
-          e.preventDefault();
+    const openSignInWindow = (url, name) => {
+      // remove any existing event listeners
+      // window.removeEventListener("message", receiveMessage);
 
-          auth.tryLoginPopup()
-            .then(main)
-            .catch(console.error);
-        })
+      // window features
+      const strWindowFeatures = "resizable=no, status=no, toolbar=no, menubar=no, width=500, height=700, top=100, left=100";
+
+      if (windowObjectReference === null || windowObjectReference.closed) {
+        /* if the pointer to the window object in memory does not exist
+        or if such pointer exists but the window was closed */
+        windowObjectReference = window.open(url, name, strWindowFeatures);
+      } else if (previousUrl !== url) {
+        /* if the resource to load is different,
+        then we load it in the already opened secondary window and then
+        we bring such window back on top/in front of its parent window. */
+        windowObjectReference = window.open(url, name, strWindowFeatures);
+        windowObjectReference.focus();
+      } else {
+        /* else the window reference must exist and the window
+        is not closed; therefore, we can bring it back on top of any other
+        window with the focus() method. There would be no need to re-create
+        the window or to reload the referenced resource. */
+        windowObjectReference.focus();
       }
-    }
 
-    main();
+      // add the listener for receiving a message from the popup
+      window.addEventListener("message", event =>
+      {
+        if (event.origin !== "https://esoi.community")
+          return;
+
+        const { data } = event;
+        if (data.status === 200)
+          window.location = data.nextWindowTarget;
+      }, false);
+
+      // assign the previous URL
+      previousUrl = url;
+    };
   </script>
 </body>
 </html>
