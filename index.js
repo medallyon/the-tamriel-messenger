@@ -13,4 +13,44 @@ client.login((process.env.NODE_ENV || "").toLowerCase() === "production" ? proce
 
 const web = require("./web");
 
+const { GuildMember } = require("discord.js");
+client.ws.on("INTERACTION_CREATE", async interaction =>
+{
+	let channel, member, target;
+	try
+	{
+		channel = await client.channels.fetch(interaction.channel_id);
+		member = new GuildMember(client, interaction.member, channel.guild);
+		target = await channel.guild.members.fetch(interaction.data.options[0].value);
+	}
+
+	catch (err)
+	{
+		console.error(err);
+	}
+
+	try
+	{
+		client.api.interactions(interaction.id, interaction.token).callback.post({
+			data: {
+				type: 4,
+				data: {
+					content: "",
+					embeds: [
+						client.commands.whoIs.run({
+							guild: channel.guild,
+							member
+						}, target || member).toJSON()
+					]
+				}
+			}
+		});
+	}
+
+	catch (err)
+	{
+		console.error(err);
+	}
+});
+
 module.exports = { client, web };
