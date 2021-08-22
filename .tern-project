@@ -1,0 +1,11 @@
+{
+  "ecmaVersion": "8",
+  "libs": [],
+  "loadEagerly": [
+    "globals.js",
+    "lib/*.js",
+    "node_modules/fs-extra/lib/**/*.js",
+    "node_modules/discord.js/src/**/*.js"
+  ],
+  "dontLoad": []
+}
