@@ -5,7 +5,7 @@
         "node": true
     },
     "extends": "eslint:recommended",
-    "parser": "babel-eslint",
+    "parser": "@babel/eslint-parser",
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module",
@@ -14,15 +14,15 @@
     "rules": {
         "brace-style": [
             "error",
-            "allman"
+            "allman",
+            { "allowSingleLine": true }
         ],
         "indent": [
             "error",
             "tab"
         ],
         "linebreak-style": [
-            "error",
-            "unix"
+            "off"
         ],
         "no-console": [
             "off"
@@ -39,7 +39,8 @@
     "globals": {
         "join": true,
         "__basedir": true,
-        "__webdir": true,
-        "__clientdir": true
+        "__datadir": true,
+        "__libdir": true,
+        "__webdir": true
     }
 }
