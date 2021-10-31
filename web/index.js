@@ -1,9 +1,13 @@
 const express = require("express")
 	, bodyParser = require("body-parser")
 	, cookieParser = require("cookie-parser")
-	, vhost = require("vhost");
+	, vhost = require("vhost")
+	, Sentry = require("@sentry/node");
 
 const app = express();
+
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.tracingHandler());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -37,7 +41,9 @@ for (const d in domains)
 }
 app.use("/", domains.root);
 
-// catch 404
+app.use(Sentry.Handlers.errorHandler());
+
+// catch 404s
 app.use(function(req, res)
 {
 	res.sendStatus(404);
