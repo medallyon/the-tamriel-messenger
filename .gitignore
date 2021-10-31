@@ -1,3 +1,7 @@
+# Integrated Development Environments
+.vs
+.idea
+
 # Logs
 logs
 *.log
@@ -106,8 +110,11 @@ dist
 # instance-specific data
 data/
 
-# dot-env file
-.env
+# dot-env files
+.env*
 
 # STFP config
 sftp-config.json
+
+# Firebase Config
+firebase.config.json
