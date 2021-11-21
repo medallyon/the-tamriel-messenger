@@ -8,18 +8,18 @@ global.__datadir = join(__dirname, "data");
  * Synchronously iterate through modules in a directory and require them
  * @param {String} dir The target module directory
  * @param {Number} [recursive=Infinity] The depth of the index, recurse into directories
- * @param {DiscordClient} [client=null] An optional Discord client to pass into classes
+ * @param {Array} [args=[]] Optional args to pass into any resulting class constructors
  * @return {Object} An object of the aggregated modules
  */
-global.index = function(dir, recursive = Infinity, client = null)
+global.index = function(dir, recursive = Infinity, ...args)
 {
 	const fs = require("fs")
 		, files = fs.readdirSync(dir)
 		, modules = {};
 
-	if (recursive instanceof require("discord.js").Client)
+	if ((typeof recursive) !== "number")
 	{
-		client = recursive;
+		args = [ recursive ].concat(args);
 		recursive = Infinity;
 	}
 
@@ -37,12 +37,12 @@ global.index = function(dir, recursive = Infinity, client = null)
 			if (recursive === 0)
 				continue;
 
-			modules[file] = global.index(filePath, recursive - 1, client);
+			modules[file] = global.index(filePath, recursive - 1, ...args);
 			continue;
 		}
 
-		if (client != null)
-			modules[file.replace(".js", "")] = new (require(filePath))(client);
+		if (args.length)
+			modules[file.replace(".js", "")] = new (require(filePath))(...args);
 		else
 			modules[file.replace(".js", "")] = require(filePath);
 	}
@@ -52,7 +52,6 @@ global.index = function(dir, recursive = Infinity, client = null)
 
 /**
  * Returns a title case representation of the object.
- *
  * @return {String} Title case representation of the object.
  */
 String.prototype.toTitleCase = function()
@@ -62,7 +61,6 @@ String.prototype.toTitleCase = function()
 		txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
 	);
 };
-
 
 /**
  * Get the first element of this array.
