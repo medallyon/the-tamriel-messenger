@@ -1,6 +1,6 @@
 {
   "name": "the-tamriel-messenger",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "index.js",
   "directories": {
     "lib": "lib"
