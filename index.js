@@ -7,7 +7,8 @@ require("dotenv").config({
 });
 
 const Sentry = require("@sentry/node")
-	, Tracing = require("@sentry/tracing");
+	, Tracing = require("@sentry/tracing")
+	, { CaptureConsole: CaptureConsoleIntegration } = require("@sentry/integrations");
 
 const DiscordClient = require(join(__libdir, "classes", "DiscordClient.js"));
 const client = new DiscordClient();
@@ -22,7 +23,8 @@ Sentry.init({
 	tracesSampleRate: 1,
 	integrations: [
 		new Sentry.Integrations.Http({ tracing: true }),
-		new Tracing.Integrations.Express({ app: web })
+		new Tracing.Integrations.Express({ app: web }),
+		new CaptureConsoleIntegration({ levels: [ "warn", "error" ] })
 	]
 });
 
