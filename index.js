@@ -6,15 +6,15 @@ require("dotenv").config({
 		: join(__dirname, ".env.dev")
 });
 
-const Sentry = require("@sentry/node")
-	, Tracing = require("@sentry/tracing")
-	, { CaptureConsole: CaptureConsoleIntegration } = require("@sentry/integrations");
-
 const DiscordClient = require(join(__libdir, "classes", "DiscordClient.js"));
 const client = new DiscordClient();
 
 client.login(process.env.BOT_TOKEN)
 	.catch(console.error);
+
+const Sentry = require("@sentry/node")
+	, Tracing = require("@sentry/tracing")
+	, { CaptureConsole: CaptureConsoleIntegration } = require("@sentry/integrations");
 
 const web = require(__webdir);
 
