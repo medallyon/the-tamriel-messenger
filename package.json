@@ -7,6 +7,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "dev": "node index.js --dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +24,7 @@
   "dependencies": {
     "@discordjs/collection": "^0.3.2",
     "@discordjs/rest": "^0.1.0-canary.0",
+    "@medallyon/djs-framework": "^1.0.5",
     "@sentry/integrations": "^6.15.0",
     "@sentry/node": "^6.15.0",
     "@sentry/tracing": "^6.15.0",
@@ -30,7 +32,7 @@
     "cheerio": "^1.0.0-rc.10",
     "cookie-parser": "^1.4.6",
     "cron": "^1.8.2",
-    "discord-api-types": "^0.24.0",
+    "discord-api-types": "^0.25.2",
     "discord.js": "^13.3.1",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
