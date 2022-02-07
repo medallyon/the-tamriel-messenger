@@ -1,10 +1,9 @@
-const express = require("express")
+const router = require("express").Router()
 	, session = require("express-session")
 	, FileStore = require("session-file-store")(session)
 	, passport = require("passport")
 	, DiscordStrategy = require("passport-discord").Strategy
-	, middle = require(join(__webdir, "middleware"))
-	, router = express.Router();
+	, middle = require(join(__webdir, "middleware"));
 
 router.use(session({
 	resave: true,

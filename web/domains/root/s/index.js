@@ -1,24 +1,5 @@
-const router = require("express")()
+const router = require("express").Router()
 	, fs = require("fs-extra");
-
-// views settings are set independently for this specific router
-router.set("views", join(__dirname, "views"));
-router.set("view engine", "ejs");
-
-router.get("/discord", function(req, res)
-{
-	res.redirect("https://discord.gg/esoi");
-});
-
-router.get("/", (req, res) =>
-{
-	res.redirect("/home");
-});
-
-router.use("/admin", require(join(__dirname, "admin")));
-
-// Link Shortener
-router.use("/s", require(join(__dirname, "s")));
 
 // eslint-disable-next-line no-useless-escape
 router.use("/:shortLinkID([a-zA-Z0-9\._-]+)", function(req, res, next)
