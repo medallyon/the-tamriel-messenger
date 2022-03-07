@@ -9,7 +9,7 @@ require("dotenv").config({
 const DiscordClient = require(join(__libdir, "classes", "DiscordClient.js"));
 const client = new DiscordClient();
 
-client.login(process.env.BOT_TOKEN)
+client.login(process.env.DISCORD_TOKEN)
 	.catch(console.error);
 
 const Sentry = require("@sentry/node")
